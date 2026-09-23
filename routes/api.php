@@ -16,7 +16,10 @@ use App\Http\Controllers\FavoritoController;
 // LOGIN
 // ============================================================
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post(
+    '/login',
+    [AuthController::class, 'login']
+);
 
 
 // ============================================================
@@ -29,7 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // AUTENTICAÇÃO
     // --------------------------------------------------------
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post(
+        '/logout',
+        [AuthController::class, 'logout']
+    );
 
 
     // --------------------------------------------------------
@@ -183,13 +189,61 @@ Route::prefix('admin')->group(function () {
     // UC52 - GERENCIAR USUÁRIOS
     // ========================================================
 
-    // Listar usuários
+
+    // --------------------------------------------------------
+    // LISTAR USUÁRIOS
+    // --------------------------------------------------------
+
     Route::get(
         '/users',
         [AdminController::class, 'listarUsuarios']
     );
 
-    // Excluir usuário
+
+    // --------------------------------------------------------
+    // VISUALIZAR DADOS COMPLETOS DO USUÁRIO
+    // --------------------------------------------------------
+
+    Route::get(
+        '/users/{id}/detalhes',
+        [AdminController::class, 'visualizarUsuarioAdmin']
+    );
+
+
+    // --------------------------------------------------------
+    // EDITAR USUÁRIO
+    // --------------------------------------------------------
+
+    Route::put(
+        '/users/{id}',
+        [AdminController::class, 'editarUsuarioAdmin']
+    );
+
+
+    // --------------------------------------------------------
+    // BLOQUEAR / DESBLOQUEAR USUÁRIO
+    // --------------------------------------------------------
+    //
+    // A = Ativo
+    // B = Bloqueado
+    //
+    // O método do controller alterna:
+    //
+    // Ativo     -> Bloqueado
+    // Bloqueado -> Ativo
+    //
+    // --------------------------------------------------------
+
+    Route::put(
+        '/users/{id}/status',
+        [AdminController::class, 'alterarStatusUsuarioAdmin']
+    );
+
+
+    // --------------------------------------------------------
+    // EXCLUIR USUÁRIO
+    // --------------------------------------------------------
+
     Route::delete(
         '/users/{id}',
         [AdminController::class, 'excluirUsuario']
@@ -199,6 +253,7 @@ Route::prefix('admin')->group(function () {
     // ========================================================
     // UC44 - GERENCIAR ANÚNCIOS PUBLICADOS
     // ========================================================
+
 
     // --------------------------------------------------------
     // LISTAR ANÚNCIOS
@@ -211,7 +266,7 @@ Route::prefix('admin')->group(function () {
 
 
     // --------------------------------------------------------
-    // VISUALIZAR DETALHES DO ANÚNCIO
+    // VISUALIZAR DETALHES COMPLETOS DO ANÚNCIO
     // --------------------------------------------------------
 
     Route::get(
@@ -221,17 +276,31 @@ Route::prefix('admin')->group(function () {
 
 
     // --------------------------------------------------------
-    // EDITAR ANÚNCIO
+    // ALTERAR STATUS DO ANÚNCIO
+    // --------------------------------------------------------
+    //
+    // A = Disponível
+    // S = Suspenso
+    //
+    // O método do controller alterna:
+    //
+    // Disponível -> Suspenso
+    // Suspenso   -> Disponível
+    //
     // --------------------------------------------------------
 
     Route::put(
-        '/products/{id}',
-        [AdminController::class, 'editarProdutoAdmin']
+        '/products/{id}/status',
+        [AdminController::class, 'alterarStatusProdutoAdmin']
     );
 
 
     // --------------------------------------------------------
     // SUSPENDER ANÚNCIO
+    // --------------------------------------------------------
+    //
+    // Mantida para compatibilidade com chamadas antigas.
+    //
     // --------------------------------------------------------
 
     Route::put(
@@ -242,6 +311,7 @@ Route::prefix('admin')->group(function () {
 
     // --------------------------------------------------------
     // EXCLUIR ANÚNCIO
+    // EXCLUSÃO LÓGICA
     // --------------------------------------------------------
 
     Route::delete(
