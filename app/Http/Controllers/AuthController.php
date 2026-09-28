@@ -27,11 +27,11 @@ class AuthController extends Controller
         }
 
         // Verifica se o usuário está ativo (opcional, baseado na sua coluna st_usuario)
-        if (isset($usuario->st_usuario) && $usuario->st_usuario === 'I') {
-            return response()->json([
-                'message' => 'Esta conta está inativa ou bloqueada.'
-            ], 403);
-        }
+       if (isset($usuario->st_usuario) && $usuario->st_usuario === 'B') {
+    return response()->json([
+        'message' => 'Esta conta está bloqueada.'
+    ], 403);
+}
 
         // Busca a instância do Model para gerar o token Sanctum
         $userModel = User::find($usuario->id_usuario);

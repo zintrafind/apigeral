@@ -67,7 +67,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$usuario) {
 
             return response()->json([
@@ -76,7 +75,6 @@ class AdminController extends Controller
             ], 404);
         }
 
-
         // Quantidade de anúncios publicados pelo usuário
         $usuario->total_anuncios = DB::table('tb_produto')
             ->where(
@@ -84,7 +82,6 @@ class AdminController extends Controller
                 $id
             )
             ->count();
-
 
         // Quantidade de propostas em que o usuário participou
         $usuario->total_trocas = DB::table('tb_proposta')
@@ -102,7 +99,6 @@ class AdminController extends Controller
 
             })
             ->count();
-
 
         return response()->json(
             $usuario,
@@ -124,7 +120,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$usuario) {
 
             return response()->json([
@@ -132,7 +127,6 @@ class AdminController extends Controller
                     'Usuário não encontrado.'
             ], 404);
         }
-
 
         $dadosValidados = $request->validate([
 
@@ -169,7 +163,6 @@ class AdminController extends Controller
 
         ]);
 
-
         DB::table('tb_usuario')
             ->where(
                 'id_usuario',
@@ -194,7 +187,6 @@ class AdminController extends Controller
 
             ]);
 
-
         $usuarioAtualizado = DB::table('tb_usuario')
             ->select(
                 'id_usuario',
@@ -213,7 +205,6 @@ class AdminController extends Controller
                 $id
             )
             ->first();
-
 
         return response()->json([
 
@@ -243,7 +234,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$usuario) {
 
             return response()->json([
@@ -251,7 +241,6 @@ class AdminController extends Controller
                     'Usuário não encontrado.'
             ], 404);
         }
-
 
         /*
         ------------------------------------------------------------
@@ -270,7 +259,6 @@ class AdminController extends Controller
 
         }
 
-
         DB::table('tb_usuario')
             ->where(
                 'id_usuario',
@@ -286,12 +274,23 @@ class AdminController extends Controller
 
             ]);
 
+        // Se o usuário foi bloqueado,
+        // encerra todas as sessões dele
+        if ($novoStatus === 'B') {
+
+            DB::table('personal_access_tokens')
+                ->where(
+                    'tokenable_id',
+                    $id
+                )
+                ->delete();
+
+        }
 
         $mensagem =
             $novoStatus === 'B'
                 ? 'Usuário bloqueado com sucesso!'
                 : 'Usuário desbloqueado com sucesso!';
-
 
         return response()->json([
 
@@ -318,7 +317,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$usuario) {
 
             return response()->json([
@@ -327,11 +325,9 @@ class AdminController extends Controller
             ], 404);
         }
 
-
         try {
 
             DB::beginTransaction();
-
 
             /*
             --------------------------------------------------------
@@ -343,7 +339,6 @@ class AdminController extends Controller
             --------------------------------------------------------
             */
 
-
             // Notificações
             DB::table('tb_notificacao')
                 ->where(
@@ -351,7 +346,6 @@ class AdminController extends Controller
                     $id
                 )
                 ->delete();
-
 
             // Histórico de interação
             DB::table('tb_historico_interacao')
@@ -361,7 +355,6 @@ class AdminController extends Controller
                 )
                 ->delete();
 
-
             // Denúncias feitas pelo usuário
             DB::table('tb_denuncia')
                 ->where(
@@ -369,7 +362,6 @@ class AdminController extends Controller
                     $id
                 )
                 ->delete();
-
 
             // Avaliações feitas pelo usuário
             DB::table('tb_avaliacao')
@@ -379,7 +371,6 @@ class AdminController extends Controller
                 )
                 ->delete();
 
-
             // Favoritos
             DB::table('tb_favorito')
                 ->where(
@@ -388,7 +379,6 @@ class AdminController extends Controller
                 )
                 ->delete();
 
-
             // Mensagens enviadas pelo usuário
             DB::table('tb_mensagem')
                 ->where(
@@ -396,7 +386,6 @@ class AdminController extends Controller
                     $id
                 )
                 ->delete();
-
 
             /*
             --------------------------------------------------------
@@ -417,7 +406,6 @@ class AdminController extends Controller
                     'id_proposta'
                 );
 
-
             if ($propostas->isNotEmpty()) {
 
                 // Mensagens relacionadas às propostas
@@ -428,7 +416,6 @@ class AdminController extends Controller
                     )
                     ->delete();
 
-
                 // Itens das propostas
                 DB::table('tb_item_proposta')
                     ->whereIn(
@@ -436,7 +423,6 @@ class AdminController extends Controller
                         $propostas
                     )
                     ->delete();
-
 
                 // Propostas
                 DB::table('tb_proposta')
@@ -446,7 +432,6 @@ class AdminController extends Controller
                     )
                     ->delete();
             }
-
 
             /*
             --------------------------------------------------------
@@ -467,7 +452,6 @@ class AdminController extends Controller
                     'id_produto'
                 );
 
-
             if ($produtos->isNotEmpty()) {
 
                 DB::table('tb_historico_interacao')
@@ -477,14 +461,12 @@ class AdminController extends Controller
                     )
                     ->delete();
 
-
                 DB::table('tb_denuncia')
                     ->whereIn(
                         'id_produto',
                         $produtos
                     )
                     ->delete();
-
 
                 DB::table('tb_avaliacao')
                     ->whereIn(
@@ -493,14 +475,12 @@ class AdminController extends Controller
                     )
                     ->delete();
 
-
                 DB::table('tb_favorito')
                     ->whereIn(
                         'id_produto',
                         $produtos
                     )
                     ->delete();
-
 
                 /*
                 As imagens são apagadas automaticamente pela
@@ -516,7 +496,6 @@ class AdminController extends Controller
                     ->delete();
             }
 
-
             // Tokens do Sanctum pertencentes ao usuário
             DB::table('personal_access_tokens')
                 ->where(
@@ -524,7 +503,6 @@ class AdminController extends Controller
                     $id
                 )
                 ->delete();
-
 
             // Finalmente exclui o usuário
             DB::table('tb_usuario')
@@ -534,9 +512,7 @@ class AdminController extends Controller
                 )
                 ->delete();
 
-
             DB::commit();
-
 
             return response()->json([
 
@@ -545,11 +521,9 @@ class AdminController extends Controller
 
             ], 200);
 
-
         } catch (\Throwable $erro) {
 
             DB::rollBack();
-
 
             return response()->json([
 
@@ -593,7 +567,6 @@ class AdminController extends Controller
             )
             ->get();
 
-
         $produtosComImagens = $produtos->map(
             function ($produto) {
 
@@ -608,17 +581,14 @@ class AdminController extends Controller
                     )
                     ->first();
 
-
                 $produto->ds_imagem =
                     $imagem
                         ? $imagem->ds_imagem
                         : null;
 
-
                 return $produto;
             }
         );
-
 
         return response()->json(
             $produtosComImagens,
@@ -664,7 +634,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$produto) {
 
             return response()->json([
@@ -672,7 +641,6 @@ class AdminController extends Controller
                     'Anúncio não encontrado.'
             ], 404);
         }
-
 
         $imagens = DB::table('tb_imagem_produto')
             ->where(
@@ -685,9 +653,7 @@ class AdminController extends Controller
             )
             ->get();
 
-
         $produto->imagens = $imagens;
-
 
         return response()->json(
             $produto,
@@ -720,7 +686,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$produto) {
 
             return response()->json([
@@ -728,7 +693,6 @@ class AdminController extends Controller
                     'Anúncio não encontrado.'
             ], 404);
         }
-
 
         if ($produto->st_status === 'S') {
 
@@ -739,7 +703,6 @@ class AdminController extends Controller
             $novoStatus = 'S';
 
         }
-
 
         DB::table('tb_produto')
             ->where(
@@ -756,12 +719,10 @@ class AdminController extends Controller
 
             ]);
 
-
         $mensagem =
             $novoStatus === 'S'
                 ? 'Anúncio suspenso com sucesso!'
                 : 'Anúncio disponibilizado novamente!';
-
 
         return response()->json([
 
@@ -793,7 +754,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$produto) {
 
             return response()->json([
@@ -801,7 +761,6 @@ class AdminController extends Controller
                     'Anúncio não encontrado.'
             ], 404);
         }
-
 
         DB::table('tb_produto')
             ->where(
@@ -817,7 +776,6 @@ class AdminController extends Controller
                     now()
 
             ]);
-
 
         return response()->json([
 
@@ -847,7 +805,6 @@ class AdminController extends Controller
             )
             ->first();
 
-
         if (!$produto) {
 
             return response()->json([
@@ -855,7 +812,6 @@ class AdminController extends Controller
                     'Anúncio não encontrado.'
             ], 404);
         }
-
 
         DB::table('tb_produto')
             ->where(
@@ -871,7 +827,6 @@ class AdminController extends Controller
                     now()
 
             ]);
-
 
         return response()->json([
 
