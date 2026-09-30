@@ -6,77 +6,112 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Proposta extends Model
 {
     use HasFactory;
 
     /**
-     * Nome da tabela
+     * Nome da tabela.
      */
     protected $table = 'tb_proposta';
 
     /**
-     * Chave primária
+     * Chave primária.
      */
     protected $primaryKey = 'id_proposta';
 
     /**
-     * Auto incremento
+     * Auto incremento.
      */
     public $incrementing = true;
 
     /**
-     * Tipo da chave
+     * Tipo da chave primária.
      */
     protected $keyType = 'int';
 
     /**
-     * Utiliza created_at e updated_at
+     * Utiliza created_at e updated_at.
      */
     public $timestamps = true;
 
     /**
-     * Campos permitidos
+     * Campos permitidos.
      */
-   protected $fillable = [
-    'id_solicitante',
-    'id_destinatario',
-    'st_troca',
-    'ds_local_troca',
-    'st_confirmacao_solicitante',
-    'st_confirmacao_destinatario'
-];
+    protected $fillable = [
+        'id_solicitante',
+        'id_destinatario',
+        'st_troca',
+        'ds_local_troca',
+        'st_confirmacao_solicitante',
+        'st_confirmacao_destinatario',
+    ];
 
     /**
-     * Usuário que enviou a proposta
+     * Usuário que enviou a proposta.
      */
     public function solicitante(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_solicitante', 'id_usuario');
+        return $this->belongsTo(
+            User::class,
+            'id_solicitante',
+            'id_usuario'
+        );
     }
 
     /**
-     * Usuário que recebeu a proposta
+     * Usuário que recebeu a proposta.
      */
     public function destinatario(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_destinatario', 'id_usuario');
+        return $this->belongsTo(
+            User::class,
+            'id_destinatario',
+            'id_usuario'
+        );
     }
 
     /**
-     * Itens da proposta
+     * Itens da proposta.
      */
     public function itens(): HasMany
     {
-        return $this->hasMany(ItemProposta::class, 'id_proposta', 'id_proposta');
+        return $this->hasMany(
+            ItemProposta::class,
+            'id_proposta',
+            'id_proposta'
+        );
     }
 
     /**
-     * Mensagens da proposta
+     * Histórico de mensagens da proposta.
      */
     public function mensagens(): HasMany
     {
-        return $this->hasMany(Mensagem::class, 'id_proposta', 'id_proposta');
+        return $this->hasMany(
+            Mensagem::class,
+            'id_proposta',
+            'id_proposta'
+        );
+    }
+
+    /**
+     * Mensagem mais recente da proposta.
+     *
+     * Em caso de mensagens com o mesmo horário,
+     * utiliza o maior id_mensagem como desempate.
+     */
+    public function ultimaMensagem(): HasOne
+    {
+        return $this->hasOne(
+            Mensagem::class,
+            'id_proposta',
+            'id_proposta'
+        )->ofMany([
+            'created_at' => 'max',
+            'id_mensagem' => 'max',
+        ]);
     }
 }
