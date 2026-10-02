@@ -10,55 +10,52 @@ class Denuncia extends Model
 {
     use HasFactory;
 
-    /**
-     * Nome da tabela
-     */
     protected $table = 'tb_denuncia';
 
-    /**
-     * Chave primária
-     */
     protected $primaryKey = 'id_denuncia';
 
-    /**
-     * Auto incremento
-     */
     public $incrementing = true;
 
-    /**
-     * Tipo da chave
-     */
     protected $keyType = 'int';
 
-    /**
-     * Utiliza created_at e updated_at
-     */
     public $timestamps = true;
 
-    /**
-     * Campos permitidos
-     */
     protected $fillable = [
         'id_usuario',
+        'id_usuario_denunciado',
         'id_produto',
         'ds_motivo',
         'ds_denuncia',
-        'st_denuncia'
+        'st_denuncia',
     ];
 
-    /**
-     * Usuário que realizou a denúncia
-     */
+    // Usuário que enviou a denúncia.
     public function usuario(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_usuario', 'id_usuario');
+        return $this->belongsTo(
+            User::class,
+            'id_usuario',
+            'id_usuario'
+        );
     }
 
-    /**
-     * Produto denunciado
-     */
+    // Usuário que foi denunciado.
+    public function denunciado(): BelongsTo
+    {
+        return $this->belongsTo(
+            User::class,
+            'id_usuario_denunciado',
+            'id_usuario'
+        );
+    }
+
+    // Mantém a relação existente para denúncias de produtos.
     public function produto(): BelongsTo
     {
-        return $this->belongsTo(Produto::class, 'id_produto', 'id_produto');
+        return $this->belongsTo(
+            Produto::class,
+            'id_produto',
+            'id_produto'
+        );
     }
 }

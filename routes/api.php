@@ -10,6 +10,8 @@ use App\Http\Controllers\PropostaController;
 use App\Http\Controllers\MensagemController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FavoritoController;
+use App\Http\Controllers\DadosPessoaisController;
+use App\Http\Controllers\DenunciaController;
 
 
 // ============================================================
@@ -36,6 +38,26 @@ Route::middleware('auth:sanctum')->group(function () {
         '/logout',
         [AuthController::class, 'logout']
     );
+
+
+    // --------------------------------------------------------
+    // EDITAR DADOS PESSOAIS — E-MAIL E SENHA
+    // --------------------------------------------------------
+
+    Route::put(
+        '/users/{id}/dados-pessoais',
+        [DadosPessoaisController::class, 'update']
+    );
+
+
+    // --------------------------------------------------------
+    // DENÚNCIAS
+    // --------------------------------------------------------
+
+    Route::post(
+        '/denuncias',
+        [DenunciaController::class, 'store']
+    )->middleware('throttle:10,1');
 
 
     // --------------------------------------------------------
@@ -189,7 +211,6 @@ Route::prefix('admin')->group(function () {
     // UC52 - GERENCIAR USUÁRIOS
     // ========================================================
 
-
     // --------------------------------------------------------
     // LISTAR USUÁRIOS
     // --------------------------------------------------------
@@ -227,8 +248,6 @@ Route::prefix('admin')->group(function () {
     // A = Ativo
     // B = Bloqueado
     //
-    // O método do controller alterna:
-    //
     // Ativo     -> Bloqueado
     // Bloqueado -> Ativo
     //
@@ -253,7 +272,6 @@ Route::prefix('admin')->group(function () {
     // ========================================================
     // UC44 - GERENCIAR ANÚNCIOS PUBLICADOS
     // ========================================================
-
 
     // --------------------------------------------------------
     // LISTAR ANÚNCIOS
@@ -281,8 +299,6 @@ Route::prefix('admin')->group(function () {
     //
     // A = Disponível
     // S = Suspenso
-    //
-    // O método do controller alterna:
     //
     // Disponível -> Suspenso
     // Suspenso   -> Disponível
@@ -318,5 +334,4 @@ Route::prefix('admin')->group(function () {
         '/products/{id}',
         [AdminController::class, 'excluirProdutoAdmin']
     );
-
 });

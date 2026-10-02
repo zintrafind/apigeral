@@ -1,220 +1,189 @@
-============================================================
-API - PEÇA POR PEÇA
-===================
+php -S 127.0.0.1:8000 -t public
+rodar o api sem dar problema
+	
+php artisan serve --host=0.0.0.0
 
-API responsável pelo funcionamento do aplicativo
-Peça por Peça, uma plataforma de troca de peças eletrônicas.
+php artisan optimize
+deixa mais rapido pq limpa cache ajuda bastante
 
-## TECNOLOGIAS
+php artisan migrate
+cria as tabelas do laravel
 
-* PHP 8.3+
-* Laravel 13
-* MySQL
-* Laravel Sanctum
-* React Native / Expo
-* Axios
-* Git
-
-============================================================
-
-1. CONFIGURAÇÃO INICIAL
-   ============================================================
-
-Abra o terminal dentro da pasta do projeto.
-
-Instale as dependências da API:
-
-```
 composer install
-```
+php artisan storage:link
 
-Crie o arquivo .env:
 
-```
+http://localhost/phpmyadmin
+
 copy .env.example .env
-```
-
-Gere a chave do Laravel:
-
-```
 php artisan key:generate
-```
 
-============================================================
-2. CONFIGURAÇÃO DO BANCO
-========================
 
-Abra o arquivo:
+o api.js na pasta services tem que ta assim: 
+import axios from "axios";
 
-```
-.env
-```
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-Confira as configurações:
+export default api;
 
-```
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=bdd_peca_por_peca
-DB_USERNAME=root
-DB_PASSWORD=
-```
+No VS Code:
 
-Banco utilizado:
+Ctrl + Shift + P
+Digite:
+TypeScript: Restart TS Server
 
-```
-bdd_peca_por_peca
-```
 
-============================================================
-3. DEPENDÊNCIAS DO APLICATIVO
-=============================
-
-Na pasta do React Native:
-
-```
+comando pra rodar o projeto react
 npm install
-```
+npx expo install expo-image-picker
+npm list expo-image-picker
+npx expo start
+nxpo start -c
 
-============================================================
-4. RODAR O PROJETO
-==================
+npx expo install expo-linear-gradient
 
-API Laravel:
+npx expo run:android
 
-```
-php artisan serve
-```
 
-Aplicativo React Native:
+npx expo install @react-native-async-storage/async-storage
 
-```
-npm start
-```
+http://localhost:8000/api/users
 
-============================================================
-5. ANTES DE COMEÇAR A TRABALHAR
-===============================
+http://localhost:8000/api/products
 
-Sempre atualize o projeto:
 
-```
-git pull
-```
 
-Depois faça suas alterações normalmente.
+ALTER TABLE tb_usuario
+ADD COLUMN ds_banner VARCHAR(255) NULL
+AFTER ds_usuario;
 
-============================================================
-6. ENVIAR ALTERAÇÕES PARA O GITHUB
-==================================
+//
 
-Quando terminar suas alterações:
+ALTER TABLE tb_mensagem
+ADD COLUMN ds_imagem VARCHAR(255) NULL AFTER ds_mensagem;
 
-1. Verificar as alterações:
+ALTER TABLE tb_mensagem MODIFY ds_mensagem TEXT NOT NULL DEFAULT '';
 
-   git status
+//
 
-2. Adicionar as alterações:
+CREATE TABLE `tb_bloqueio` (
+  `id_bloqueio` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `id_usuario_bloqueado` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
 
-   git add .
+  PRIMARY KEY (`id_bloqueio`),
 
-3. Criar o commit:
+  UNIQUE KEY `uk_bloqueio_usuario` (
+    `id_usuario`,
+    `id_usuario_bloqueado`
+  ),
 
-   git commit -m "Descrição da alteração"
+  KEY `id_usuario` (`id_usuario`),
+  KEY `id_usuario_bloqueado` (`id_usuario_bloqueado`),
 
-Exemplo:
+  CONSTRAINT `tb_bloqueio_ibfk_1`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `tb_usuario` (`id_usuario`)
+    ON DELETE CASCADE,
 
-```
-git commit -m "Corrige edição de anúncios"
-```
+  CONSTRAINT `tb_bloqueio_ibfk_2`
+    FOREIGN KEY (`id_usuario_bloqueado`)
+    REFERENCES `tb_usuario` (`id_usuario`)
+    ON DELETE CASCADE
 
-4. Enviar para o GitHub:
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
-```
-git push
-```
 
-============================================================
-7. FLUXO DO GIT
-===============
 
-ANTES DE COMEÇAR:
 
-```
-git pull
-```
+limpeza de banco de dados:
+SET FOREIGN_KEY_CHECKS = 0;
 
-FAZER AS ALTERAÇÕES
+DELETE FROM tb_mensagem;
+DELETE FROM tb_item_proposta;
+DELETE FROM tb_proposta;
+DELETE FROM tb_favorito;
+DELETE FROM tb_avaliacao;
+DELETE FROM tb_denuncia;
+DELETE FROM tb_historico_interacao;
+DELETE FROM tb_notificacao;
+DELETE FROM tb_historico_interacao;
+DELETE FROM tb_imagem_produto;
+DELETE FROM tb_produto;
+DELETE FROM tb_usuario;
 
-DEPOIS DE TERMINAR:
+SET FOREIGN_KEY_CHECKS = 1;
 
-```
-git status
-git add .
-git commit -m "Descrição da alteração"
-git push
-```
 
-============================================================
-8. TRABALHO EM EQUIPE
-=====================
+dps: 
 
-Antes de começar a trabalhar:
 
-```
-git pull
-```
+ALTER TABLE tb_usuario AUTO_INCREMENT = 1;
+ALTER TABLE tb_produto AUTO_INCREMENT = 1;
+ALTER TABLE tb_imagem_produto AUTO_INCREMENT = 1;
+ALTER TABLE tb_proposta AUTO_INCREMENT = 1;
+ALTER TABLE tb_item_proposta AUTO_INCREMENT = 1;
+ALTER TABLE tb_mensagem AUTO_INCREMENT = 1;
+ALTER TABLE tb_favorito AUTO_INCREMENT = 1;
+ALTER TABLE tb_avaliacao AUTO_INCREMENT = 1;
+ALTER TABLE tb_denuncia AUTO_INCREMENT = 1;
+ALTER TABLE tb_historico_interacao AUTO_INCREMENT = 1;
+ALTER TABLE tb_notificacao AUTO_INCREMENT = 1;
 
-Faça suas alterações.
 
-Depois envie:
 
-```
-git add .
-git commit -m "Descrição da alteração"
-git push
-```
 
-============================================================
-9. IMPORTANTE
-=============
 
-O arquivo .env não deve ser enviado para o GitHub.
 
-Cada computador deve possuir seu próprio arquivo .env.
 
-============================================================
-10. COMANDOS PRINCIPAIS
-=======================
 
-API:
+pauta de alterações:
 
-```
-composer install
-php artisan key:generate
-php artisan serve
-```
+botao de voltar nn funciona...
+a parte de baixo, rodape com botoes ta cagado, tem tela sem uns botoes, enfim, bagunça
+por banner no editar perfil
+pesquisar peça front ver se ta bom pra tds
+frontend e backend geral testar tudo e ver bugs falhas, ou melhorias, passar na mão dos 6
+mudar design do visuliz. perfil, cards estao estranhos, ver em grandes qntdds de produtos anunciados
+dar minhas opnioes sobre o perfil e o design e rotas
+pesquisar sobre o tempo de carregamento, para ser mais rapido 
+configurar as rotas, principalmente os botões de voltar (setinhas)
+arrumar imagem no visu. peças 
+arrumar front end do visu. perfil, deixar q nem é o facebook, exatamente igual
 
-APLICATIVO:
 
-```
-npm install
-npm start
-```
+config, para qnd eu entrar no chat, se ja tiver mensagem nele, ele ja "nascer" a página la embaixo
 
-GIT:
 
-```
-git pull
-git status
-git add .
-git commit -m "Descrição da alteração"
-git push
-```
 
-============================================================
-PEÇA POR PEÇA
-=============
+ALTER TABLE tb_denuncia
+    MODIFY COLUMN id_produto INT(11) NULL,
+    MODIFY COLUMN ds_denuncia TEXT NULL,
+    ADD COLUMN id_usuario_denunciado INT(11) NULL AFTER id_usuario,
+    ADD INDEX idx_denuncia_usuario_denunciado (id_usuario_denunciado);
 
-# Plataforma de troca de peças eletrônicas.
+CREATE TABLE tb_imagem_denuncia (
+    id_imagem_denuncia INT(11) NOT NULL AUTO_INCREMENT,
+    id_denuncia INT(11) NOT NULL,
+    ds_imagem VARCHAR(255) NOT NULL,
+    nr_ordem TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id_imagem_denuncia),
+    INDEX idx_imagem_denuncia (id_denuncia),
+
+    CONSTRAINT fk_imagem_denuncia
+        FOREIGN KEY (id_denuncia)
+        REFERENCES tb_denuncia (id_denuncia)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
