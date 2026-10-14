@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02-Out-2026 às 22:29
+-- Tempo de geração: 14/10/2026 às 02:09
 -- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.2.12
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `peca_por_peca`
+-- Banco de dados: `banco`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cache`
+-- Estrutura para tabela `cache`
 --
 
 CREATE TABLE `cache` (
@@ -34,7 +34,7 @@ CREATE TABLE `cache` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `cache`
+-- Despejando dados para a tabela `cache`
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cache_locks`
+-- Estrutura para tabela `cache_locks`
 --
 
 CREATE TABLE `cache_locks` (
@@ -56,7 +56,7 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `failed_jobs`
+-- Estrutura para tabela `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -72,7 +72,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `jobs`
+-- Estrutura para tabela `jobs`
 --
 
 CREATE TABLE `jobs` (
@@ -88,7 +88,7 @@ CREATE TABLE `jobs` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `job_batches`
+-- Estrutura para tabela `job_batches`
 --
 
 CREATE TABLE `job_batches` (
@@ -107,7 +107,7 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `password_reset_tokens`
+-- Estrutura para tabela `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
@@ -119,7 +119,7 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `personal_access_tokens`
+-- Estrutura para tabela `personal_access_tokens`
 --
 
 CREATE TABLE `personal_access_tokens` (
@@ -136,7 +136,7 @@ CREATE TABLE `personal_access_tokens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `personal_access_tokens`
+-- Despejando dados para a tabela `personal_access_tokens`
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
@@ -166,12 +166,22 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (52, 'App\\Models\\User', 1, 'api-token', 'ff26efe19a6cda844ac8993c5c7efa6f54a371db7c4f6e8015cfa2870203dcce', '[\"*\"]', NULL, NULL, '2026-09-30 23:02:03', '2026-09-30 23:02:03'),
 (53, 'App\\Models\\User', 2, 'api-token', '683c2ff1db2797db1cacacc70a9a4b32642757ef311ecc533e9de30f70cf868f', '[\"*\"]', '2026-10-02 20:23:35', NULL, '2026-10-01 12:54:01', '2026-10-02 20:23:35'),
 (54, 'App\\Models\\User', 1, 'api-token', '23a90e44814ea07a40af73a1f30b4e4f6b16ecce79de5e8709ec5ab3ecedc224', '[\"*\"]', NULL, NULL, '2026-10-02 20:20:13', '2026-10-02 20:20:13'),
-(55, 'App\\Models\\User', 1, 'api-token', 'bf0e16360e1f7e116558416644fb2550515b4fbc5a453149a746f2f07c491c33', '[\"*\"]', NULL, NULL, '2026-10-02 20:20:15', '2026-10-02 20:20:15');
+(55, 'App\\Models\\User', 1, 'api-token', 'bf0e16360e1f7e116558416644fb2550515b4fbc5a453149a746f2f07c491c33', '[\"*\"]', NULL, NULL, '2026-10-02 20:20:15', '2026-10-02 20:20:15'),
+(56, 'App\\Models\\User', 10, 'api-token', 'c3846df7f6d0863b3aede55379ee0d3cd73bd7d2fbbe656ab358de721db5fd5e', '[\"*\"]', '2026-10-12 14:02:29', NULL, '2026-10-12 13:03:11', '2026-10-12 14:02:29'),
+(57, 'App\\Models\\User', 10, 'api-token', '3388f1477e5ace6133402ff657a907b0824089ab0b5cacbf9f466f08495fe65a', '[\"*\"]', NULL, NULL, '2026-10-12 14:13:13', '2026-10-12 14:13:13'),
+(58, 'App\\Models\\User', 10, 'api-token', '95bce0ba51a5b91d90e218ced677765f31cee7327e22363637c4b3c56e8e6e2d', '[\"*\"]', NULL, NULL, '2026-10-12 14:13:15', '2026-10-12 14:13:15'),
+(63, 'App\\Models\\User', 2, 'api-token', 'ebf60fd51d8a7bb1468e39dfd04eea5f878640ceba38a2cfd83162f0fa9309c4', '[\"*\"]', '2026-10-13 20:03:04', NULL, '2026-10-13 20:00:04', '2026-10-13 20:03:04'),
+(64, 'App\\Models\\User', 2, 'api-token', '8a4989b87a6113300b309f5f5f641a01ad00961eb7bd369531ceff61275a9870', '[\"*\"]', NULL, NULL, '2026-10-13 20:03:45', '2026-10-13 20:03:45'),
+(65, 'App\\Models\\User', 2, 'api-token', 'facebbcb56434235d095a3b253ad76869c5d3260d375f3b4afd29819d9d68365', '[\"*\"]', '2026-10-13 20:11:51', NULL, '2026-10-13 20:03:46', '2026-10-13 20:11:51'),
+(67, 'App\\Models\\User', 2, 'api-token', 'ca5b7adc267e9c26a86f10150115567f3579794e2d399cb3a199f819d981f58c', '[\"*\"]', '2026-10-13 20:14:33', NULL, '2026-10-13 20:14:22', '2026-10-13 20:14:33'),
+(69, 'App\\Models\\User', 2, 'api-token', 'edf4f203258795795d0166b954ef33c66652bcc2a639b922a5deed141bd17052', '[\"*\"]', '2026-10-13 20:38:22', NULL, '2026-10-13 20:16:09', '2026-10-13 20:38:22'),
+(70, 'App\\Models\\User', 2, 'api-token', 'a6beefa3f0caf3a5a2127baf1006cc9ab6c9b7c6b2c90c9d921cfa5f83e51799', '[\"*\"]', '2026-10-13 20:42:27', NULL, '2026-10-13 20:40:17', '2026-10-13 20:42:27'),
+(78, 'App\\Models\\User', 10, 'api-token', '1c89e363615142080b23e5502da400e3fec475a2e1e7ee6b9e473418e5ba9ee1', '[\"*\"]', '2026-10-14 00:08:55', NULL, '2026-10-13 23:59:09', '2026-10-14 00:08:55');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `sessions`
+-- Estrutura para tabela `sessions`
 --
 
 CREATE TABLE `sessions` (
@@ -186,7 +196,7 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_avaliacao`
+-- Estrutura para tabela `tb_avaliacao`
 --
 
 CREATE TABLE `tb_avaliacao` (
@@ -202,7 +212,7 @@ CREATE TABLE `tb_avaliacao` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_categoria`
+-- Estrutura para tabela `tb_categoria`
 --
 
 CREATE TABLE `tb_categoria` (
@@ -214,7 +224,7 @@ CREATE TABLE `tb_categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_categoria`
+-- Despejando dados para a tabela `tb_categoria`
 --
 
 INSERT INTO `tb_categoria` (`id_categoria`, `nm_categoria`, `ds_categoria`, `created_at`, `updated_at`) VALUES
@@ -231,7 +241,7 @@ INSERT INTO `tb_categoria` (`id_categoria`, `nm_categoria`, `ds_categoria`, `cre
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_denuncia`
+-- Estrutura para tabela `tb_denuncia`
 --
 
 CREATE TABLE `tb_denuncia` (
@@ -247,7 +257,7 @@ CREATE TABLE `tb_denuncia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_denuncia`
+-- Despejando dados para a tabela `tb_denuncia`
 --
 
 INSERT INTO `tb_denuncia` (`id_denuncia`, `id_usuario`, `id_usuario_denunciado`, `id_produto`, `ds_motivo`, `ds_denuncia`, `st_denuncia`, `created_at`, `updated_at`) VALUES
@@ -257,7 +267,7 @@ INSERT INTO `tb_denuncia` (`id_denuncia`, `id_usuario`, `id_usuario_denunciado`,
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_favorito`
+-- Estrutura para tabela `tb_favorito`
 --
 
 CREATE TABLE `tb_favorito` (
@@ -269,7 +279,7 @@ CREATE TABLE `tb_favorito` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_favorito`
+-- Despejando dados para a tabela `tb_favorito`
 --
 
 INSERT INTO `tb_favorito` (`id_favorito`, `id_usuario`, `id_produto`, `created_at`, `updated_at`) VALUES
@@ -284,7 +294,7 @@ INSERT INTO `tb_favorito` (`id_favorito`, `id_usuario`, `id_produto`, `created_a
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_historico_interacao`
+-- Estrutura para tabela `tb_historico_interacao`
 --
 
 CREATE TABLE `tb_historico_interacao` (
@@ -299,7 +309,7 @@ CREATE TABLE `tb_historico_interacao` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_imagem_denuncia`
+-- Estrutura para tabela `tb_imagem_denuncia`
 --
 
 CREATE TABLE `tb_imagem_denuncia` (
@@ -312,7 +322,7 @@ CREATE TABLE `tb_imagem_denuncia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `tb_imagem_denuncia`
+-- Despejando dados para a tabela `tb_imagem_denuncia`
 --
 
 INSERT INTO `tb_imagem_denuncia` (`id_imagem_denuncia`, `id_denuncia`, `ds_imagem`, `nr_ordem`, `created_at`, `updated_at`) VALUES
@@ -325,7 +335,7 @@ INSERT INTO `tb_imagem_denuncia` (`id_imagem_denuncia`, `id_denuncia`, `ds_image
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_imagem_produto`
+-- Estrutura para tabela `tb_imagem_produto`
 --
 
 CREATE TABLE `tb_imagem_produto` (
@@ -338,7 +348,7 @@ CREATE TABLE `tb_imagem_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_imagem_produto`
+-- Despejando dados para a tabela `tb_imagem_produto`
 --
 
 INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_produto`, `ds_imagem`, `nr_ordem`, `created_at`, `updated_at`) VALUES
@@ -365,12 +375,16 @@ INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_produto`, `ds_imagem`, `nr_ord
 (21, 17, 'products/ewfX7ays6dwRi6jzId1TA9vOR84BNu6RKUqpmxRf.jpg', 2, '2026-10-01 11:32:43', '2026-10-01 11:32:43'),
 (22, 17, 'products/kPTV7OBBJQTkOCAOAVYHvwfU48EEw7prJyGhWwLk.jpg', 3, '2026-10-01 11:32:43', '2026-10-01 11:32:43'),
 (23, 17, 'products/nG8VJbdvsKzurI1lMwrkGJ8KhhJsUHa2P25kCbCR.jpg', 4, '2026-10-01 11:32:43', '2026-10-01 11:32:43'),
-(24, 17, 'products/OokzhoagBS9yKTeJNsnT4MJYWepJzLRwiDCRLOtP.jpg', 5, '2026-10-01 11:32:43', '2026-10-01 11:32:43');
+(24, 17, 'products/OokzhoagBS9yKTeJNsnT4MJYWepJzLRwiDCRLOtP.jpg', 5, '2026-10-01 11:32:43', '2026-10-01 11:32:43'),
+(25, 18, 'products/MrRvxI5qR4yGsIOAzjlwXvBQ3mG9FEa8bZ9mV0bC.webp', 1, '2026-10-12 13:13:30', '2026-10-12 13:13:30'),
+(26, 19, 'products/tfMauZDAbblpFdLPI5yGQzM4CfpMqBK4ZA39rYLA.webp', 1, '2026-10-12 14:33:00', '2026-10-12 14:33:00'),
+(27, 20, 'products/lpwlYlfnlF9VJv6ZPNHnUhwWO8T4rGeEezE7ISYH.webp', 1, '2026-10-13 22:46:12', '2026-10-13 22:46:12'),
+(28, 21, 'products/GTgHwSw6h1tPHQ11cE6C3tlyBt4cJfqXwQq6to8a.jpg', 1, '2026-10-13 23:51:56', '2026-10-13 23:51:56');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_item_proposta`
+-- Estrutura para tabela `tb_item_proposta`
 --
 
 CREATE TABLE `tb_item_proposta` (
@@ -383,7 +397,7 @@ CREATE TABLE `tb_item_proposta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_item_proposta`
+-- Despejando dados para a tabela `tb_item_proposta`
 --
 
 INSERT INTO `tb_item_proposta` (`id_item_proposta`, `id_proposta`, `id_produto`, `tp_item`, `created_at`, `updated_at`) VALUES
@@ -392,12 +406,22 @@ INSERT INTO `tb_item_proposta` (`id_item_proposta`, `id_proposta`, `id_produto`,
 (3, 2, 4, 'O', '2026-09-30 11:37:29', '2026-09-30 11:37:29'),
 (4, 2, 2, 'D', '2026-09-30 11:37:29', '2026-09-30 11:37:29'),
 (5, 3, 16, 'O', '2026-09-30 21:40:52', '2026-09-30 21:40:52'),
-(6, 3, 9, 'D', '2026-09-30 21:40:52', '2026-09-30 21:40:52');
+(6, 3, 9, 'D', '2026-09-30 21:40:52', '2026-09-30 21:40:52'),
+(7, 4, 18, 'O', '2026-10-12 13:14:20', '2026-10-12 13:14:20'),
+(8, 4, 17, 'D', '2026-10-12 13:14:20', '2026-10-12 13:14:20'),
+(9, 5, 18, 'O', '2026-10-12 13:30:49', '2026-10-12 13:30:49'),
+(10, 5, 13, 'D', '2026-10-12 13:30:49', '2026-10-12 13:30:49'),
+(11, 6, 19, 'O', '2026-10-13 19:38:17', '2026-10-13 19:38:17'),
+(12, 6, 11, 'D', '2026-10-13 19:38:17', '2026-10-13 19:38:17'),
+(13, 7, 17, 'O', '2026-10-13 20:13:38', '2026-10-13 20:13:38'),
+(14, 7, 18, 'D', '2026-10-13 20:13:38', '2026-10-13 20:13:38'),
+(15, 8, 21, 'O', '2026-10-13 23:52:32', '2026-10-13 23:52:32'),
+(16, 8, 20, 'D', '2026-10-13 23:52:32', '2026-10-13 23:52:32');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_mensagem`
+-- Estrutura para tabela `tb_mensagem`
 --
 
 CREATE TABLE `tb_mensagem` (
@@ -410,10 +434,23 @@ CREATE TABLE `tb_mensagem` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Despejando dados para a tabela `tb_mensagem`
+--
+
+INSERT INTO `tb_mensagem` (`id_mensagem`, `id_usuario`, `id_proposta`, `ds_mensagem`, `ds_imagem`, `created_at`, `updated_at`) VALUES
+(1, 2, 6, 'oiee', NULL, '2026-10-13 19:41:34', '2026-10-13 19:41:34'),
+(2, 10, 6, 'oikkkk', NULL, '2026-10-13 19:47:59', '2026-10-13 19:47:59'),
+(3, 10, 8, 'e aí mano qual a fita', NULL, '2026-10-13 23:53:45', '2026-10-13 23:53:45'),
+(4, 10, 8, 'de boa', NULL, '2026-10-13 23:53:50', '2026-10-13 23:53:50'),
+(5, 11, 8, 'de boa cara', NULL, '2026-10-13 23:55:07', '2026-10-13 23:55:07'),
+(6, 11, 8, 'to precisando de uma peça que voce tem', NULL, '2026-10-13 23:55:24', '2026-10-13 23:55:24'),
+(7, 11, 8, 'como faz', NULL, '2026-10-13 23:55:33', '2026-10-13 23:55:33');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_notificacao`
+-- Estrutura para tabela `tb_notificacao`
 --
 
 CREATE TABLE `tb_notificacao` (
@@ -429,7 +466,7 @@ CREATE TABLE `tb_notificacao` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_produto`
+-- Estrutura para tabela `tb_produto`
 --
 
 CREATE TABLE `tb_produto` (
@@ -445,7 +482,7 @@ CREATE TABLE `tb_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_produto`
+-- Despejando dados para a tabela `tb_produto`
 --
 
 INSERT INTO `tb_produto` (`id_produto`, `id_usuario`, `id_categoria`, `nm_produto`, `ds_produto`, `st_condicao`, `st_status`, `created_at`, `updated_at`) VALUES
@@ -459,18 +496,22 @@ INSERT INTO `tb_produto` (`id_produto`, `id_usuario`, `id_categoria`, `nm_produt
 (8, 7, 2, 'notebook', 'Notebook seminovo, ideal para estudar, navegar na internet e jogar Minecraft com bom desempenho. Uma boa opção para quem busca um computador para o dia a dia e momentos de diversão. Disponível para troca!', 'S', 'A', '2026-09-25 14:39:00', '2026-09-29 12:07:54'),
 (9, 5, 3, 'Celular iPhone 8 roxo do MIN', 'iPhone para quem busca praticidade no dia a dia, seja para acessar redes sociais, tirar fotos ou conversar. Disponível para troca! Entre em contato para saber mais sobre o aparelho e combinar uma proposta.', 'N', 'A', '2026-09-25 14:53:56', '2026-09-25 14:53:56'),
 (10, 2, 1, 'Placa de Vídeo', 'Placa de vídeo disponível para troca por outras peças eletrônicas. Entre em contato para conferir o modelo, as especificações e a compatibilidade com seu computador. Aceito propostas!', 'U', 'A', '2026-09-25 14:59:01', '2026-09-25 14:59:01'),
-(11, 2, 3, 'Celular da Coraline', 'Quero trocar meu celular personalizado por outro modelo. Gosto muito dele, mas está na hora de mudar!', 'U', 'A', '2026-09-25 15:02:57', '2026-09-29 12:07:48'),
+(11, 2, 3, 'Celular da Coraline', 'Quero trocar meu celular personalizado por outro modelo. Gosto muito dele, mas está na hora de mudar!', 'U', 'T', '2026-09-25 15:02:57', '2026-10-13 20:07:50'),
 (12, 5, 3, 'Celular do Homem Aranha', 'Estou querendo trocar meu celular personalizado do Homem-Aranha por outro modelo. Quem tiver interesse, pode mandar uma proposta!', 'U', 'A', '2026-09-25 15:04:46', '2026-09-29 12:07:43'),
 (13, 7, 3, 'Celular Quebrado', 'celular quebrado', 'Q', 'A', '2026-09-25 15:51:07', '2026-09-25 15:51:07'),
 (14, 8, 3, 'LLL', NULL, 'U', 'A', '2026-09-27 15:24:05', '2026-09-29 12:07:51'),
 (15, 2, 3, 'celular comido', 'estava com fome', 'Q', 'A', '2026-09-29 12:10:34', '2026-09-29 14:09:41'),
 (16, 2, 9, 'Memes', 'humor quebrado', 'Q', 'A', '2026-09-30 21:38:52', '2026-09-30 21:38:52'),
-(17, 2, 3, 'celularzinhos', NULL, 'S', 'A', '2026-10-01 11:32:43', '2026-10-01 11:32:43');
+(17, 2, 3, 'celularzinhos', NULL, 'S', 'T', '2026-10-01 11:32:43', '2026-10-13 20:16:20'),
+(18, 10, 2, 'computadorzinho', 'quero celular', 'N', 'T', '2026-10-12 13:13:28', '2026-10-13 20:16:20'),
+(19, 10, 3, 'celular', 'é', 'S', 'T', '2026-10-12 14:32:59', '2026-10-13 20:07:50'),
+(20, 10, 7, 'videogame', NULL, 'S', 'T', '2026-10-13 22:46:09', '2026-10-13 23:59:19'),
+(21, 11, 3, 'peças de celular', 'dependendo do rolo eu to dentro', 'U', 'T', '2026-10-13 23:51:56', '2026-10-13 23:59:19');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_proposta`
+-- Estrutura para tabela `tb_proposta`
 --
 
 CREATE TABLE `tb_proposta` (
@@ -486,18 +527,23 @@ CREATE TABLE `tb_proposta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_proposta`
+-- Despejando dados para a tabela `tb_proposta`
 --
 
 INSERT INTO `tb_proposta` (`id_proposta`, `id_solicitante`, `id_destinatario`, `st_troca`, `ds_local_troca`, `created_at`, `updated_at`, `st_confirmacao_solicitante`, `st_confirmacao_destinatario`) VALUES
 (1, 2, 5, 'R', NULL, '2026-09-30 11:37:07', '2026-09-30 11:39:51', 'N', 'N'),
 (2, 5, 2, 'A', NULL, '2026-09-30 11:37:29', '2026-09-30 11:39:07', 'N', 'N'),
-(3, 2, 5, 'P', NULL, '2026-09-30 21:40:52', '2026-09-30 21:40:52', 'N', 'N');
+(3, 2, 5, 'P', NULL, '2026-09-30 21:40:52', '2026-09-30 21:40:52', 'N', 'N'),
+(4, 10, 2, 'P', NULL, '2026-10-12 13:14:20', '2026-10-12 13:14:20', 'N', 'N'),
+(5, 10, 7, 'P', NULL, '2026-10-12 13:30:49', '2026-10-12 13:30:49', 'N', 'N'),
+(6, 10, 2, 'F', NULL, '2026-10-13 19:38:17', '2026-10-13 20:07:50', 'S', 'S'),
+(7, 2, 10, 'F', NULL, '2026-10-13 20:13:38', '2026-10-13 20:16:20', 'S', 'S'),
+(8, 11, 10, 'F', NULL, '2026-10-13 23:52:32', '2026-10-13 23:59:19', 'S', 'S');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tb_usuario`
+-- Estrutura para tabela `tb_usuario`
 --
 
 CREATE TABLE `tb_usuario` (
@@ -517,24 +563,26 @@ CREATE TABLE `tb_usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Extraindo dados da tabela `tb_usuario`
+-- Despejando dados para a tabela `tb_usuario`
 --
 
 INSERT INTO `tb_usuario` (`id_usuario`, `nm_usuario`, `email`, `password`, `tp_usuario`, `st_usuario`, `st_email_verificado`, `ds_foto_perfil`, `ds_usuario`, `ds_banner`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'admin@gmail.com', '$2y$12$bAWYhz96rg7dxVOwYmBwxeWM6qFUj1MIJRgrsQzudh1FvfY5LVkD6', 'A', 'A', 'N', 'usuarios/perfis/Ji9Uv6PtQfeOSD7HByv9dTnqPRDqn3tm0FW6jxA0.jpg', 'Qual é o seu filme de terror favorito?', 'usuarios/banners/odusdEa55DDgv9HGPCsCn0CIcQbro500lKovNMDZ.jpg', NULL, '2026-09-23 16:46:59', '2026-09-23 17:23:38'),
-(2, 'Coraline', 'coraline@gmail.com', '$2y$12$Mr6kzL7hsWkhxeWd28V6B.8ql0jPgtihjCyZTWVzTvE1wOx3giKsS', 'C', 'A', '0', 'usuarios/perfis/abvBf85yXd1SO46v8fFI2vueWqGuPBiXzX5XSsec.jpg', 'Eu atravessei a porta. Agora preciso encontrar o caminho de volta.', 'usuarios/banners/ORVclQEgzUC6YDi5odV8Zi2ujkEGswDrc2KFzL7S.jpg', NULL, '2026-09-23 17:24:17', '2026-09-30 22:16:40'),
+(2, 'Coraline', 'coraline@gmail.com', '$2y$12$Mr6kzL7hsWkhxeWd28V6B.8ql0jPgtihjCyZTWVzTvE1wOx3giKsS', 'C', 'A', '0', 'usuarios/perfis/abvBf85yXd1SO46v8fFI2vueWqGuPBiXzX5XSsec.jpg', 'Eu atravessei a porta. Agora preciso encontrar o caminho de volta.', 'usuarios/banners/ORVclQEgzUC6YDi5odV8Zi2ujkEGswDrc2KFzL7S.jpg', NULL, '2026-09-23 17:24:17', '2026-10-13 21:52:55'),
 (3, 'Dog', 'dog@gmail.com', '$2y$12$PisCYdcvtKBysMyRKZu3R.m/Fln3zOsudtdqkf4b7sKFA4GmGdKBe', '', '', '', 'usuarios/perfis/n0yXgYKJbcOp0XkMldO929FBbSxBQcEktJgFq2lm.jpg', 'só apareço quando tenho algo pra falar\r\n#sp #music #pop #games #random', 'usuarios/banners/t4f6AhDNYpnbTKyTPmwV83L6g0io2ijQbpPpRhwx.jpg', NULL, '2026-09-23 21:33:01', '2026-09-23 22:02:26'),
 (4, 'Miau', 'miau@gmail.com', '$2y$12$U7LPmL3nd0fRCav1IHw4I.4.VQ2N7ZKuScD7e/Rk.6uGE8GPQGHxy', 'C', 'A', 'N', 'usuarios/perfis/YvbHPCxWNMUoeqA9hxi8MHavLvFXFuSoAREHA6Ql.jpg', 'Sou a Gatinha Marie super fofa, com meu clássico lacinho da Disney. sou linda e delicada. Troco meus itens por algo legal e do meu interesse!', 'usuarios/banners/qmjpvQZ0KSvLHVazMEILbtsJtXqwJ4VHFbrsC107.jpg', NULL, '2026-09-23 17:30:32', '2026-09-23 17:33:29'),
 (5, 'Homem Aranha', 'homemaranha@gmail.com', '$2y$12$MxTUR/CwoO4pGQlt22plxOEfbCBPkfTVseUkAbxKMzOTmqcpMToDu', 'C', 'A', 'N', 'usuarios/perfis/wxcuxhn3ZLST9NnI25OLavfJsDAjL4ml7WfvBuMD.jpg', 'entre prédios, teias e algumas escolhas questionáveis. sempre procurando algo incrível para trocar e, quem sabe, uma nova aventura para chamar de minha.', 'usuarios/banners/iYKK0PTk175DvlKf4gorOohf5TS5hU67BgbJz6D8.jpg', NULL, '2026-09-23 17:37:33', '2026-09-23 17:38:16'),
 (6, 'Investigador L', 'deathnote@gmail.com', '$2y$12$bAWYhz96rg7dxVOwYmBwxeWM6qFUj1MIJRgrsQzudh1FvfY5LVkD6', 'C', 'A', 'N', 'usuarios/perfis/CUzjKIxbjVHDcgUOJsQFxG30b9j10JmOSrfxFlTj.jpg', 'Quanto menos você souber sobre mim, melhor. Eu já sei o suficiente sobre você.', 'usuarios/banners/fXw8TA0WzpWz0Rd062D3z1AxJvEq3RdabzjRN7xM.jpg', NULL, '2026-09-24 00:31:35', '2026-09-24 01:39:38'),
 (7, 'aaaaaaaa', 'aaaaaaaa@gmail.com', '$2y$12$Cge93VLdWCY3tjchhu6twuwRtrpB/1Tue.6jX.J47T0KJ85ZlenKu', 'C', 'A', 'N', NULL, NULL, NULL, NULL, '2026-09-24 03:12:54', '2026-09-25 14:45:26'),
 (8, 'Simone', 'simone@gmail.com', '$2y$12$peYcz/emONBzE1MRzGp0uOzL8LG9rYitIOJYz6q3uf5zDer0LHhzu', 'C', 'A', 'N', 'usuarios/perfis/X2sds8EPDr7rKCsnZRCFokuTH7ez0xk5toOl2dab.jpg', NULL, 'usuarios/banners/qHwBDKcLFhHdWBkRhzLr7krm60X7e9ms3C3TPMq1.jpg', NULL, '2026-09-27 15:21:09', '2026-09-27 15:49:57'),
-(9, 'Thayna', 'thayadm@gmail.com', '$2y$12$qF/wITW6/fjIlps2I.oZoOLehwbl4/6FURPOkkynQDtd2nllNg6Gm', 'C', 'A', 'N', NULL, NULL, NULL, NULL, '2026-09-30 13:22:20', '2026-09-30 13:22:20');
+(9, 'Thayna', 'thayadm@gmail.com', '$2y$12$qF/wITW6/fjIlps2I.oZoOLehwbl4/6FURPOkkynQDtd2nllNg6Gm', 'C', 'A', 'N', NULL, NULL, NULL, NULL, '2026-09-30 13:22:20', '2026-09-30 13:22:20'),
+(10, 'miles', 'miles@gmail.com', '$2y$12$PlXw8rsseEukRh.OJzAqfuKGHK4YW/ZOrbeSJH1hORGLhZNqvzFvi', 'C', 'A', 'N', 'usuarios/perfis/ZLYaBJ4ye2HokreyWn5Beh2DXLmpR9k5GRrIwdYx.jpg', 'meu nome é Miles Morales fui picado por uma aranha radioativa e, há um ano e quatro meses, sou o único e exclusivo homem-aranha do brooklyn 🔥', 'usuarios/banners/dgrpAL4GidSymvrz58inESR3Uqo3R6VuBOfz6jG1.jpg', NULL, '2026-10-12 13:02:51', '2026-10-13 21:57:15'),
+(11, 'gisele', 'gisele@gmail.com', '$2y$12$82y77vc2MZgJ46cVvWq4Ee0YSbFx6GU4J0jxf7QBR3tfMfzVwHOyC', 'C', 'A', 'N', 'usuarios/perfis/TjMGB8UDT5GfXZ39uMOinaBuLAiV2ou3GpFRq1gp.jpg', 'sou uma empresaria de sucesso no ramo da eletronica', 'usuarios/banners/816FYnPRte48kO3lDERpRENdIfWVkp4pZ0AXmD4j.jpg', NULL, '2026-10-13 23:43:29', '2026-10-13 23:48:48');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `users`
+-- Estrutura para tabela `users`
 --
 
 CREATE TABLE `users` (
@@ -553,21 +601,21 @@ CREATE TABLE `users` (
 --
 
 --
--- Índices para tabela `cache`
+-- Índices de tabela `cache`
 --
 ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`),
   ADD KEY `cache_expiration_index` (`expiration`);
 
 --
--- Índices para tabela `cache_locks`
+-- Índices de tabela `cache_locks`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`),
   ADD KEY `cache_locks_expiration_index` (`expiration`);
 
 --
--- Índices para tabela `failed_jobs`
+-- Índices de tabela `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
@@ -575,26 +623,26 @@ ALTER TABLE `failed_jobs`
   ADD KEY `failed_jobs_connection_queue_failed_at_index` (`connection`,`queue`,`failed_at`);
 
 --
--- Índices para tabela `jobs`
+-- Índices de tabela `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `jobs_queue_index` (`queue`);
 
 --
--- Índices para tabela `job_batches`
+-- Índices de tabela `job_batches`
 --
 ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `password_reset_tokens`
+-- Índices de tabela `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Índices para tabela `personal_access_tokens`
+-- Índices de tabela `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
@@ -603,7 +651,7 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_expires_at_index` (`expires_at`);
 
 --
--- Índices para tabela `sessions`
+-- Índices de tabela `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
@@ -611,7 +659,7 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
--- Índices para tabela `tb_avaliacao`
+-- Índices de tabela `tb_avaliacao`
 --
 ALTER TABLE `tb_avaliacao`
   ADD PRIMARY KEY (`id_avaliacao`),
@@ -619,13 +667,13 @@ ALTER TABLE `tb_avaliacao`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `tb_categoria`
+-- Índices de tabela `tb_categoria`
 --
 ALTER TABLE `tb_categoria`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Índices para tabela `tb_denuncia`
+-- Índices de tabela `tb_denuncia`
 --
 ALTER TABLE `tb_denuncia`
   ADD PRIMARY KEY (`id_denuncia`),
@@ -634,7 +682,7 @@ ALTER TABLE `tb_denuncia`
   ADD KEY `idx_denuncia_usuario_denunciado` (`id_usuario_denunciado`);
 
 --
--- Índices para tabela `tb_favorito`
+-- Índices de tabela `tb_favorito`
 --
 ALTER TABLE `tb_favorito`
   ADD PRIMARY KEY (`id_favorito`),
@@ -642,7 +690,7 @@ ALTER TABLE `tb_favorito`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `tb_historico_interacao`
+-- Índices de tabela `tb_historico_interacao`
 --
 ALTER TABLE `tb_historico_interacao`
   ADD PRIMARY KEY (`id_historico`),
@@ -650,21 +698,21 @@ ALTER TABLE `tb_historico_interacao`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `tb_imagem_denuncia`
+-- Índices de tabela `tb_imagem_denuncia`
 --
 ALTER TABLE `tb_imagem_denuncia`
   ADD PRIMARY KEY (`id_imagem_denuncia`),
   ADD KEY `idx_imagem_denuncia` (`id_denuncia`);
 
 --
--- Índices para tabela `tb_imagem_produto`
+-- Índices de tabela `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
   ADD PRIMARY KEY (`id_imagem`),
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `tb_item_proposta`
+-- Índices de tabela `tb_item_proposta`
 --
 ALTER TABLE `tb_item_proposta`
   ADD PRIMARY KEY (`id_item_proposta`),
@@ -672,7 +720,7 @@ ALTER TABLE `tb_item_proposta`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `tb_mensagem`
+-- Índices de tabela `tb_mensagem`
 --
 ALTER TABLE `tb_mensagem`
   ADD PRIMARY KEY (`id_mensagem`),
@@ -680,14 +728,14 @@ ALTER TABLE `tb_mensagem`
   ADD KEY `id_proposta` (`id_proposta`);
 
 --
--- Índices para tabela `tb_notificacao`
+-- Índices de tabela `tb_notificacao`
 --
 ALTER TABLE `tb_notificacao`
   ADD PRIMARY KEY (`id_notificacao`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `tb_produto`
+-- Índices de tabela `tb_produto`
 --
 ALTER TABLE `tb_produto`
   ADD PRIMARY KEY (`id_produto`),
@@ -695,7 +743,7 @@ ALTER TABLE `tb_produto`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices para tabela `tb_proposta`
+-- Índices de tabela `tb_proposta`
 --
 ALTER TABLE `tb_proposta`
   ADD PRIMARY KEY (`id_proposta`),
@@ -703,21 +751,21 @@ ALTER TABLE `tb_proposta`
   ADD KEY `id_destinatario` (`id_destinatario`);
 
 --
--- Índices para tabela `tb_usuario`
+-- Índices de tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Índices para tabela `users`
+-- Índices de tabela `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -736,7 +784,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT de tabela `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de tabela `tb_avaliacao`
@@ -778,19 +826,19 @@ ALTER TABLE `tb_imagem_denuncia`
 -- AUTO_INCREMENT de tabela `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `tb_item_proposta`
 --
 ALTER TABLE `tb_item_proposta`
-  MODIFY `id_item_proposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_item_proposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `tb_mensagem`
 --
 ALTER TABLE `tb_mensagem`
-  MODIFY `id_mensagem` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mensagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `tb_notificacao`
@@ -802,19 +850,19 @@ ALTER TABLE `tb_notificacao`
 -- AUTO_INCREMENT de tabela `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `tb_proposta`
 --
 ALTER TABLE `tb_proposta`
-  MODIFY `id_proposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_proposta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `users`
@@ -823,78 +871,78 @@ ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `tb_avaliacao`
+-- Restrições para tabelas `tb_avaliacao`
 --
 ALTER TABLE `tb_avaliacao`
   ADD CONSTRAINT `tb_avaliacao_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
   ADD CONSTRAINT `tb_avaliacao_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`);
 
 --
--- Limitadores para a tabela `tb_denuncia`
+-- Restrições para tabelas `tb_denuncia`
 --
 ALTER TABLE `tb_denuncia`
   ADD CONSTRAINT `tb_denuncia_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
   ADD CONSTRAINT `tb_denuncia_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`);
 
 --
--- Limitadores para a tabela `tb_favorito`
+-- Restrições para tabelas `tb_favorito`
 --
 ALTER TABLE `tb_favorito`
   ADD CONSTRAINT `tb_favorito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`) ON DELETE CASCADE,
   ADD CONSTRAINT `tb_favorito_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `tb_historico_interacao`
+-- Restrições para tabelas `tb_historico_interacao`
 --
 ALTER TABLE `tb_historico_interacao`
   ADD CONSTRAINT `tb_historico_interacao_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
   ADD CONSTRAINT `tb_historico_interacao_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`);
 
 --
--- Limitadores para a tabela `tb_imagem_denuncia`
+-- Restrições para tabelas `tb_imagem_denuncia`
 --
 ALTER TABLE `tb_imagem_denuncia`
   ADD CONSTRAINT `fk_imagem_denuncia` FOREIGN KEY (`id_denuncia`) REFERENCES `tb_denuncia` (`id_denuncia`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `tb_imagem_produto`
+-- Restrições para tabelas `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
   ADD CONSTRAINT `tb_imagem_produto_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `tb_item_proposta`
+-- Restrições para tabelas `tb_item_proposta`
 --
 ALTER TABLE `tb_item_proposta`
   ADD CONSTRAINT `tb_item_proposta_ibfk_1` FOREIGN KEY (`id_proposta`) REFERENCES `tb_proposta` (`id_proposta`) ON DELETE CASCADE,
   ADD CONSTRAINT `tb_item_proposta_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`);
 
 --
--- Limitadores para a tabela `tb_mensagem`
+-- Restrições para tabelas `tb_mensagem`
 --
 ALTER TABLE `tb_mensagem`
   ADD CONSTRAINT `tb_mensagem_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
   ADD CONSTRAINT `tb_mensagem_ibfk_2` FOREIGN KEY (`id_proposta`) REFERENCES `tb_proposta` (`id_proposta`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `tb_notificacao`
+-- Restrições para tabelas `tb_notificacao`
 --
 ALTER TABLE `tb_notificacao`
   ADD CONSTRAINT `tb_notificacao_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`) ON DELETE CASCADE;
 
 --
--- Limitadores para a tabela `tb_produto`
+-- Restrições para tabelas `tb_produto`
 --
 ALTER TABLE `tb_produto`
   ADD CONSTRAINT `tb_produto_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`) ON DELETE CASCADE,
   ADD CONSTRAINT `tb_produto_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `tb_categoria` (`id_categoria`);
 
 --
--- Limitadores para a tabela `tb_proposta`
+-- Restrições para tabelas `tb_proposta`
 --
 ALTER TABLE `tb_proposta`
   ADD CONSTRAINT `tb_proposta_ibfk_1` FOREIGN KEY (`id_solicitante`) REFERENCES `tb_usuario` (`id_usuario`),
