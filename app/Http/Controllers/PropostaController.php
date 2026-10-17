@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Proposta;
 use App\Models\ItemProposta;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -105,35 +106,40 @@ class PropostaController extends Controller
             'id_produto_desejado' =>
                 'required|integer|exists:tb_produto,id_produto',
 
-            'id_produto_oferecido' =>
-                'required|integer|exists:tb_produto,id_produto',
+            'ids_produtos_oferecidos' =>
+                'required|array|min:1',
+
+            'ids_produtos_oferecidos.*' =>
+                'required|integer|distinct|exists:tb_produto,id_produto',
         ]);
 
         $usuario = $request->user();
+
+        if ($usuario->st_perfil_disponivel === 'I') {
+            return response()->json([
+                'message' => 'Você está indisponível para trocas. Altere a disponibilidade do seu perfil para solicitar uma troca.',
+            ], 422);
+        }
+
+        $idsProdutosOferecidos = array_map(
+            'intval',
+            $validatedData['ids_produtos_oferecidos']
+        );
 
         $produtoDesejado = Product::find(
             $validatedData['id_produto_desejado']
         );
 
-        $produtoOferecido = Product::find(
-            $validatedData['id_produto_oferecido']
-        );
+        $produtosOferecidos = Product::whereIn(
+            'id_produto',
+            $idsProdutosOferecidos
+        )->get();
 
-        if (!$produtoDesejado || !$produtoOferecido) {
+        if (!$produtoDesejado || $produtosOferecidos->count() !== count($idsProdutosOferecidos)) {
             return response()->json([
                 'message' =>
                     'Um ou mais produtos não foram encontrados.',
             ], 404);
-        }
-
-        if (
-            $produtoDesejado->id_produto ===
-            $produtoOferecido->id_produto
-        ) {
-            return response()->json([
-                'message' =>
-                    'O produto desejado e o produto oferecido devem ser diferentes.',
-            ], 422);
         }
 
         if (
@@ -147,47 +153,70 @@ class PropostaController extends Controller
         }
 
         if (
-            $produtoOferecido->id_usuario !==
-            $usuario->id_usuario
+            $produtoDesejado->user?->st_perfil_disponivel === 'I'
         ) {
             return response()->json([
-                'message' =>
-                    'O produto oferecido deve pertencer ao usuário logado.',
-            ], 403);
+                'message' => 'Este usuário está indisponível para trocas no momento.',
+            ], 422);
         }
 
-        $solicitacaoExistente = Proposta::where(
-            'id_solicitante',
-            $usuario->id_usuario
-        )
-            ->where(
-                'id_destinatario',
-                $produtoDesejado->id_usuario
-            )
+        foreach ($produtosOferecidos as $produtoOferecido) {
+            if ((int) $produtoOferecido->id_produto === (int) $produtoDesejado->id_produto) {
+                return response()->json([
+                    'message' =>
+                        'O produto desejado e o produto oferecido devem ser diferentes.',
+                ], 422);
+            }
+
+            if ((int) $produtoOferecido->id_usuario !== (int) $usuario->id_usuario) {
+                return response()->json([
+                    'message' =>
+                        'Todos os produtos oferecidos devem pertencer ao usuário logado.',
+                ], 403);
+            }
+
+            if ($produtoOferecido->st_status !== 'A') {
+                return response()->json([
+                    'message' =>
+                        'Todos os produtos oferecidos devem estar disponíveis para troca.',
+                ], 422);
+            }
+        }
+
+        $idsProdutosOferecidosOrdenados = collect($idsProdutosOferecidos)
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
+
+        $propostasPendentesMesmoProdutoDesejado = Proposta::query()
+            ->where('id_solicitante', $usuario->id_usuario)
             ->where('st_troca', 'P')
-            ->whereHas(
-                'itens',
-                function ($query) use ($produtoDesejado) {
-                    $query
-                        ->where(
-                            'id_produto',
-                            $produtoDesejado->id_produto
-                        )
-                        ->where('tp_item', 'D');
-                }
-            )
-            ->whereHas(
-                'itens',
-                function ($query) use ($produtoOferecido) {
-                    $query
-                        ->where(
-                            'id_produto',
-                            $produtoOferecido->id_produto
-                        )
-                        ->where('tp_item', 'O');
-                }
-            )
-            ->exists();
+            ->whereHas('itens', function ($query) use ($produtoDesejado) {
+                $query
+                    ->where('id_produto', $produtoDesejado->id_produto)
+                    ->where('tp_item', 'D');
+            })
+            ->with(['itens' => function ($query) {
+                $query
+                    ->select('id_item_proposta', 'id_proposta', 'id_produto')
+                    ->where('tp_item', 'O');
+            }])
+            ->get();
+
+        $solicitacaoExistente = $propostasPendentesMesmoProdutoDesejado->contains(
+            function ($proposta) use ($idsProdutosOferecidosOrdenados) {
+                $idsExistentesOrdenados = $proposta->itens
+                    ->pluck('id_produto')
+                    ->map(fn ($idProduto) => (int) $idProduto)
+                    ->unique()
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                return $idsExistentesOrdenados === $idsProdutosOferecidosOrdenados;
+            }
+        );
 
         if ($solicitacaoExistente) {
             return response()->json([
@@ -203,17 +232,10 @@ class PropostaController extends Controller
             ], 422);
         }
 
-        if ($produtoOferecido->st_status !== 'A') {
-            return response()->json([
-                'message' =>
-                    'O produto oferecido não está disponível para troca.',
-            ], 422);
-        }
-
         $proposta = DB::transaction(function () use (
             $usuario,
             $produtoDesejado,
-            $produtoOferecido
+            $produtosOferecidos
         ) {
             $proposta = Proposta::create([
                 'id_solicitante' =>
@@ -227,15 +249,17 @@ class PropostaController extends Controller
                 'ds_local_troca' => null,
             ]);
 
-            ItemProposta::create([
-                'id_proposta' =>
-                    $proposta->id_proposta,
+            foreach ($produtosOferecidos as $produtoOferecido) {
+                ItemProposta::create([
+                    'id_proposta' =>
+                        $proposta->id_proposta,
 
-                'id_produto' =>
-                    $produtoOferecido->id_produto,
+                    'id_produto' =>
+                        $produtoOferecido->id_produto,
 
-                'tp_item' => 'O',
-            ]);
+                    'tp_item' => 'O',
+                ]);
+            }
 
             ItemProposta::create([
                 'id_proposta' =>
@@ -302,6 +326,35 @@ class PropostaController extends Controller
             ], 422);
         }
 
+        if ($validatedData['st_troca'] === 'A') {
+            $participanteIndisponivel = User::query()
+                ->whereIn('id_usuario', [
+                    $proposta->id_solicitante,
+                    $proposta->id_destinatario,
+                ])
+                ->where('st_perfil_disponivel', 'I')
+                ->exists();
+
+            if ($participanteIndisponivel) {
+                return response()->json([
+                    'message' => 'Não é possível aceitar esta proposta enquanto um dos usuários estiver indisponível para trocas.',
+                ], 422);
+            }
+
+            $proposta->load('itens.produto');
+
+            $produtoIndisponivel = $proposta->itens->contains(
+                fn ($item) => !$item->produto || $item->produto->st_status !== 'A'
+            );
+
+            if ($produtoIndisponivel) {
+                return response()->json([
+                    'message' =>
+                        'Não é possível aceitar esta proposta porque um dos produtos não está mais disponível.',
+                ], 422);
+            }
+        }
+
         $proposta->update([
             'st_troca' =>
                 $validatedData['st_troca'],
@@ -320,6 +373,49 @@ class PropostaController extends Controller
 
         return response()->json([
             'message' => $mensagem,
+            'proposta' => $proposta,
+        ], 200);
+    }
+
+
+    /**
+     * Cancelar uma solicitação de troca pendente pelo solicitante.
+     */
+    public function cancelar(Request $request, $id)
+    {
+        $usuario = $request->user();
+        $proposta = Proposta::find($id);
+
+        if (!$proposta) {
+            return response()->json([
+                'message' => 'Proposta não encontrada.',
+            ], 404);
+        }
+
+        if ($proposta->id_solicitante !== $usuario->id_usuario) {
+            return response()->json([
+                'message' => 'Somente o solicitante pode cancelar esta proposta.',
+            ], 403);
+        }
+
+        if ($proposta->st_troca !== 'P') {
+            return response()->json([
+                'message' => 'Somente propostas pendentes podem ser canceladas.',
+            ], 422);
+        }
+
+        $proposta->update([
+            'st_troca' => 'C',
+        ]);
+
+        $proposta->load([
+            'solicitante',
+            'destinatario',
+            'itens.produto.images',
+        ]);
+
+        return response()->json([
+            'message' => 'Solicitação cancelada com sucesso!',
             'proposta' => $proposta,
         ], 200);
     }
@@ -370,6 +466,31 @@ class PropostaController extends Controller
             return response()->json([
                 'message' =>
                     'A troca precisa estar aceita para ser finalizada.',
+            ], 422);
+        }
+
+        $participanteIndisponivel = User::query()
+            ->whereIn('id_usuario', [
+                $proposta->id_solicitante,
+                $proposta->id_destinatario,
+            ])
+            ->where('st_perfil_disponivel', 'I')
+            ->exists();
+
+        if ($participanteIndisponivel) {
+            return response()->json([
+                'message' => 'Não é possível finalizar esta troca enquanto um dos usuários estiver indisponível para trocas.',
+            ], 422);
+        }
+
+        $produtoIndisponivel = $proposta->itens->contains(
+            fn ($item) => !$item->produto || $item->produto->st_status !== 'A'
+        );
+
+        if ($produtoIndisponivel) {
+            return response()->json([
+                'message' =>
+                    'Não é possível finalizar esta troca porque um dos produtos não está mais disponível.',
             ], 422);
         }
 

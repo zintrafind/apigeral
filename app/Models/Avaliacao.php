@@ -2,62 +2,58 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Avaliacao extends Model
 {
     use HasFactory;
 
-    /**
-     * Nome da tabela
-     */
     protected $table = 'tb_avaliacao';
-
-    /**
-     * Chave primária
-     */
     protected $primaryKey = 'id_avaliacao';
-
-    /**
-     * Auto incremento
-     */
     public $incrementing = true;
-
-    /**
-     * Tipo da chave
-     */
     protected $keyType = 'int';
-
-    /**
-     * Utiliza created_at e updated_at
-     */
     public $timestamps = true;
 
-    /**
-     * Campos permitidos
-     */
     protected $fillable = [
+        'id_proposta',
+        'id_avaliador',
+        'id_avaliado',
         'id_usuario',
         'id_produto',
         'nr_nota',
-        'ds_comentario'
+        'ds_comentario',
     ];
 
-    /**
-     * Usuário que realizou a avaliação
-     */
+    public function proposta(): BelongsTo
+    {
+        return $this->belongsTo(Proposta::class, 'id_proposta', 'id_proposta');
+    }
+
+    public function avaliador(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_avaliador', 'id_usuario');
+    }
+
+    public function avaliado(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_avaliado', 'id_usuario');
+    }
+
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id_usuario');
     }
 
-    /**
-     * Produto avaliado
-     */
     public function produto(): BelongsTo
     {
         return $this->belongsTo(Produto::class, 'id_produto', 'id_produto');
+    }
+
+    public function comentarios(): HasMany
+    {
+        return $this->hasMany(ComentarioAvaliacao::class, 'id_avaliacao', 'id_avaliacao');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mensagem;
 use App\Models\Proposta;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MensagemController extends Controller
@@ -88,6 +89,20 @@ class MensagemController extends Controller
             return response()->json([
                 'message' => 'Você não participa desta conversa.'
             ], 403);
+        }
+
+        $participanteIndisponivel = User::query()
+            ->whereIn('id_usuario', [
+                $proposta->id_solicitante,
+                $proposta->id_destinatario,
+            ])
+            ->where('st_perfil_disponivel', 'I')
+            ->exists();
+
+        if ($participanteIndisponivel) {
+            return response()->json([
+                'message' => 'Não é possível enviar mensagens porque um dos usuários está indisponível para trocas.',
+            ], 422);
         }
 
         /*

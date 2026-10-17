@@ -12,6 +12,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\DadosPessoaisController;
 use App\Http\Controllers\DenunciaController;
+use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\ComentarioAvaliacaoController;
+use App\Http\Controllers\PasswordResetController;
 
 
 // ============================================================
@@ -22,6 +25,21 @@ Route::post(
     '/login',
     [AuthController::class, 'login']
 );
+
+Route::post(
+    '/forgot-password',
+    [PasswordResetController::class, 'forgotPassword']
+)->middleware('throttle:3,1');
+
+Route::post(
+    '/verify-reset-code',
+    [PasswordResetController::class, 'verifyResetCode']
+)->middleware('throttle:10,1');
+
+Route::post(
+    '/reset-password',
+    [PasswordResetController::class, 'resetPassword']
+)->middleware('throttle:5,1');
 
 
 // ============================================================
@@ -39,6 +57,11 @@ Route::middleware('auth:sanctum')->group(function () {
         [AuthController::class, 'logout']
     );
 
+    Route::put(
+        '/users/{id}/disponibilidade',
+        [UserController::class, 'atualizarDisponibilidade']
+    );
+
 
     // --------------------------------------------------------
     // EDITAR DADOS PESSOAIS — E-MAIL E SENHA
@@ -47,6 +70,26 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put(
         '/users/{id}/dados-pessoais',
         [DadosPessoaisController::class, 'update']
+    );
+
+
+    // --------------------------------------------------------
+    // AVALIAÇÕES
+    // --------------------------------------------------------
+
+    Route::post(
+        '/avaliacoes',
+        [AvaliacaoController::class, 'store']
+    );
+
+    Route::get(
+        '/usuarios/{id}/avaliacoes',
+        [AvaliacaoController::class, 'indexByUsuario']
+    );
+
+    Route::post(
+        '/avaliacoes/{id}/comentarios',
+        [ComentarioAvaliacaoController::class, 'store']
     );
 
 
@@ -125,6 +168,11 @@ Route::middleware('auth:sanctum')->group(function () {
     );
 
     Route::put(
+        '/propostas/{id}/cancelar',
+        [PropostaController::class, 'cancelar']
+    );
+
+    Route::put(
         '/propostas/{id}/finalizar',
         [PropostaController::class, 'finalizar']
     );
@@ -173,6 +221,11 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::apiResource(
     'users',
     UserController::class
+);
+
+Route::get(
+    '/avaliacoes/{id}/comentarios',
+    [ComentarioAvaliacaoController::class, 'index']
 );
 
 

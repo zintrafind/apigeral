@@ -76,6 +76,54 @@ class UserController extends Controller
     }
 
     /**
+     * Atualiza a disponibilidade do perfil do usuário.
+     */
+    public function atualizarDisponibilidade(Request $request, string $id)
+    {
+        $usuario = User::find($id);
+
+        if (!$usuario) {
+            return response()->json([
+                'message' => 'Usuário não encontrado'
+            ], 404);
+        }
+
+        $valorDisponibilidade = $request->input('st_perfil_disponivel', $request->input('disponivel'));
+
+        if (is_bool($valorDisponibilidade)) {
+            $valorDisponibilidade = $valorDisponibilidade ? 'A' : 'I';
+        }
+
+        if (in_array($valorDisponibilidade, [true, 'true', 1, '1'], true)) {
+            $valorDisponibilidade = 'A';
+        }
+
+        if (in_array($valorDisponibilidade, [false, 'false', 0, '0'], true)) {
+            $valorDisponibilidade = 'I';
+        }
+
+        $validator = Validator::make([
+            'st_perfil_disponivel' => $valorDisponibilidade,
+        ], [
+            'st_perfil_disponivel' => 'required|string|in:A,I',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $usuario->st_perfil_disponivel = $valorDisponibilidade;
+        $usuario->save();
+
+        return response()->json([
+            'message' => 'Disponibilidade do perfil atualizada com sucesso!',
+            'usuario' => $usuario->fresh()
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * Atualiza:

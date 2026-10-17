@@ -17,7 +17,20 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with($this->relacoes())
+        $avaliacoesPorUsuario = DB::table('tb_avaliacao')
+            ->select('id_avaliado')
+            ->selectRaw('AVG(nr_nota) as media_avaliacoes')
+            ->selectRaw('COUNT(*) as quantidade_avaliacoes')
+            ->whereNotNull('id_avaliado')
+            ->groupBy('id_avaliado');
+
+        $query = Product::query()
+            ->leftJoinSub($avaliacoesPorUsuario, 'reputacao_usuario', function ($join) {
+                $join->on('tb_produto.id_usuario', '=', 'reputacao_usuario.id_avaliado');
+            })
+            ->select('tb_produto.*')
+            ->selectRaw('CASE WHEN reputacao_usuario.media_avaliacoes >= 4.5 AND reputacao_usuario.quantidade_avaliacoes >= 3 THEN 1 ELSE 0 END as usuario_bem_avaliado')
+            ->with($this->relacoes())
             ->where('st_status', 'A');
 
         if ($request->filled('search')) {
@@ -552,7 +565,7 @@ class ProductController extends Controller
     private function relacoes(): array
     {
         return [
-            'user',
+            'user:id_usuario,nm_usuario,ds_foto_perfil',
             'categoria',
             'images' => function ($query) {
                 $query->orderBy('nr_ordem')

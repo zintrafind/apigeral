@@ -53,6 +53,7 @@ class User extends Authenticatable
         'password',
         'tp_usuario',
         'st_usuario',
+        'st_perfil_disponivel',
         'st_email_verificado',
         'ds_foto_perfil',
         'ds_banner',
